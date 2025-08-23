@@ -2,6 +2,44 @@
     box-sizing: border-box;
 }
 
+:root {
+    --color-primary: #f06200;
+    --color-secondary: #f9f0ec;
+    --color-light: #fff;
+
+    --font-body: Bahnschrift, Arial, verdana, helvetica, sans-serif;
+
+    /* * Size */
+    --font-large: 1.2rem;
+    --font-larger: 2rem;
+    --font-xl: 3rem;
+    --font-xxl: 4rem;
+
+    /* * Weight */
+    --font-bold: 600;
+    --font-xbold: 900;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
+    font-family: var(--font-body);
+}
+
+p {
+    line-height: 1.5;
+}
+
+.icon {
+    display: inline-grid;
+    place-items: center;
+
+    & i {
+        display: grid;
+        place-items: center;
+        width: 1.2rem;
+    }
 }

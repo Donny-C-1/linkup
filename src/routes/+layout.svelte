@@ -24,6 +24,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>Linkup</title>
 </svelte:head>
 
 {@render children?.()}
