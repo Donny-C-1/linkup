@@ -1,14 +1,14 @@
 <script>
-	// Components
-	import Sidebar from "$lib/components/Sidebar.svelte";
-	// Not Components
+    // Components
+    import Sidebar from "$lib/components/Sidebar.svelte";
+    // Non Components
     import { layout } from "$lib/stores/layout.svelte";
 </script>
 
-<Sidebar activeTab="profile" />
+<Sidebar activeTab="bookmarks" />
 <div class="frame">
-	<div class="profile_panel">
-		<h1>Profile</h1>
+	<div class="settings_panel">
+		<h1>Bookmarks</h1>
 	</div>
 	{#if layout.isDesktop}
 		<div>

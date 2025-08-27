@@ -5,17 +5,27 @@
 :root {
     --color-primary: #f06200;
     --color-secondary: #f9f0ec;
+    --color-tertiary: #e6ebf5;
     --color-light: #fff;
+    --color-dark: #212529;
+    --color-grey-300: #606367;
+    --color-grey-500: #9397ab;
+    --color-grey-800: #ccc;
+    --color-grey-900: #f6f6f9;
 
     --font-body: Bahnschrift, Arial, verdana, helvetica, sans-serif;
 
     /* * Size */
+    --font-small: .8rem;
+    --font-normal: 1rem;
     --font-large: 1.2rem;
     --font-larger: 2rem;
     --font-xl: 3rem;
     --font-xxl: 4rem;
 
     /* * Weight */
+    --font-light: 100;
+    --font-medium: 400;
     --font-bold: 600;
     --font-xbold: 900;
 }
@@ -27,10 +37,15 @@ html {
 body {
     margin: 0;
     font-family: var(--font-body);
+    font-weight: var(--font-normal);
 }
 
 p {
     line-height: 1.5;
+}
+
+img {
+    vertical-align: middle;
 }
 
 .icon {
