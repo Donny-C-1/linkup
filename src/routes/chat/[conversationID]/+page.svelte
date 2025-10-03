@@ -12,9 +12,79 @@
 	import emojiIcon from '$lib/assets/emoji.svg?raw';
 	import micIcon from '$lib/assets/mic.svg?raw';
 	import sendIcon from '$lib/assets/send.svg?raw';
-    import moreIcon from "$lib/assets/more.svg?raw";
+	import moreIcon from '$lib/assets/more.svg?raw';
+	import arrowLeftIcon from '$lib/assets/arrow-left.svg?raw';
 	// Non Components
 	import { layout } from '$lib/stores/layout.svelte';
+	import { formatTimestamp } from 'little-timestamp';
+
+	let messages = $state([
+		{
+			id: 1,
+			sender: {
+				username: 'peter',
+				displayPicture: '/images/avatar-1.jpg'
+			},
+			content: 'Hi bro!!! How are you doing ? I hope you are doing good.',
+			status: 'sent',
+			lastUpdated: '2024-06-10T09:00:00Z'
+		},
+		{
+			id: 2,
+			sender: {
+				username: 'john',
+				displayPicture: '/images/avatar-2.jpg'
+			},
+			content: "Hey Peter! I'm doing well, thanks. How about you?",
+			status: 'delivered',
+			lastUpdated: '2024-06-10T09:01:00Z'
+		},
+		{
+			id: 3,
+			sender: {
+				username: 'peter',
+				displayPicture: '/images/avatar-1.jpg'
+			},
+			content: "I'm great! Just working on some projects.",
+			status: 'read',
+			lastUpdated: '2024-06-10T09:02:00Z'
+		},
+		{
+			id: 4,
+			sender: {
+				username: 'john',
+				displayPicture: '/images/avatar-2.jpg'
+			},
+			content: "That's awesome. Let me know if you need any help.",
+			status: 'sent',
+			lastUpdated: '2024-06-10T09:03:00Z'
+		},
+		{
+			id: 5,
+			sender: {
+				username: 'peter',
+				displayPicture: '/images/avatar-1.jpg'
+			},
+			content: 'Sure, thanks! Appreciate it.',
+			status: 'delivered',
+			lastUpdated: '2024-06-10T09:04:00Z'
+		}
+	]);
+	let messageInput = $state('');
+
+	function sendMessage() {
+		messages.push({
+			id: Math.floor(Math.random() * 100),
+			sender: {
+				username: 'Donny C',
+				displayPicture: '/images/avatar-9.jpg'
+			},
+			content: messageInput,
+			status: 'sent',
+			lastUpdated: new Date()
+		});
+		messageInput = "";
+	}
 </script>
 
 {#if layout.isDesktop}
@@ -29,6 +99,7 @@
 	{/if}
 	<section class="message_board">
 		<header>
+			<a href="/chat" class="return"><span class="icon"><i>{@html arrowLeftIcon}</i></span></a>
 			<img
 				class="conversation_picture"
 				src="/images/avatar-1.jpg"
@@ -45,43 +116,48 @@
 			<button><span class="icon"><i>{@html videoIcon}</i></span></button>
 			<button><span class="icon"><i>{@html bookmarkIcon}</i></span></button>
 			<button><span class="icon"><i>{@html infoIcon}</i></span></button>
-            <button class="more"><span class="icon"><i>{@html moreIcon}</i></span></button>
+			<button class="more"><span class="icon"><i>{@html moreIcon}</i></span></button>
 		</header>
 
 		<div class="chat_box">
 			<ul>
-				<li class="message">
-					<img src="/images/avatar-1.jpg" alt="Other person profile pic" width="40" height="auto" />
-					<div>
-						<strong class="sender"><small>Peter:</small></strong>
-						<p class="content">
-							<span>Hi bro!!! How are you doing ? I hope you are doing good.</span>
-                            <sub>
-								<time datetime=""><small>Just now</small></time>
-							</sub>
-						</p>
-					</div>
-				</li>
-				<li class="message">
-					<img src="/images/avatar-1.jpg" alt="Other person profile pic" width="40" height="auto" />
-					<div>
-						<strong class="sender"><small>Peter:</small></strong>
-						<p class="content">
-							<span>Hi bro!!! How are you doing ? I hope you are doing good.</span>
-                            <sub>
-								<time datetime=""><small>Just now</small></time>
-							</sub>
-						</p>
-					</div>
-				</li>
+				{#each messages as msg}
+					<li class="message">
+						<img
+							src={msg.sender.displayPicture}
+							alt="{msg.sender.username} display pic"
+							width="40"
+							height="auto"
+						/>
+						<div>
+							<strong class="sender"><small>{msg.sender.username}</small></strong>
+							<p class="content">
+								<span>{msg.content}</span>
+								<sub>
+									<time datetime={msg.lastUpdated}>
+										<small>{formatTimestamp(new Date(msg.lastUpdated))}</small>
+									</time>
+								</sub>
+							</p>
+						</div>
+					</li>
+				{/each}
 			</ul>
 		</div>
 		<div class="input_box">
 			<button><span class="icon"><i>{@html attachmentIcon}</i></span></button>
 			<button><span class="icon"><i>{@html emojiIcon}</i></span></button>
-			<input class="message_input" type="text" name="" id="" placeholder="Type a message" />
+			<input
+				class="message_input"
+				type="text"
+				name=""
+				id=""
+				placeholder="Type a message"
+				bind:value={messageInput}
+				onkeydown={e => e.key == "Enter" && sendMessage()}
+			/>
 			<button><span class="icon"><i>{@html micIcon}</i></span></button>
-			<button><span class="icon"><i>{@html sendIcon}</i></span></button>
+			<button onclick={sendMessage}><span class="icon"><i>{@html sendIcon}</i></span></button>
 		</div>
 	</section>
 </div>
@@ -113,7 +189,7 @@
 		align-items: center;
 		gap: 1rem;
 		box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-		padding: .5rem .75rem;
+		padding: 0.5rem 0.75rem;
 
 		& .conversation_picture {
 			width: 2.75rem;
@@ -139,43 +215,60 @@
 			color: var(--color-grey-500);
 		}
 
-        & button {
-            display: none;
-            border: 0;
-            background-color: transparent;
-            transition: .3s ease;
-            cursor: pointer;
+		& .return {
+			display: grid;
+			place-items: center;
+			padding: 0.25rem;
+			border-radius: 0.5rem;
+			background-color: var(--color-secondary);
+			transition: 0.3s ease;
 
-            &.more {
-                display: block;
+			&:is(:hover, :focus-visible) {
+				color: var(--color-primary);
+			}
 
-                & i {
-                    width: 1.5rem;
-                }
-            }
+			@media screen and (min-width: 62rem) {
+				display: none;
+			}
+		}
 
-            @media screen and (min-width: 62rem) {
-                display: block;
+		& button {
+			display: none;
+			border: 0;
+			background-color: transparent;
+			transition: 0.3s ease;
+			cursor: pointer;
 
-                &.more {
-                    display: none;
-                }
-            }
+			&.more {
+				display: block;
 
-            &:is(:hover, :focus-visible) {
-                color: var(--color-primary);
-            }
+				& i {
+					width: 1.5rem;
+				}
+			}
 
-            &:active {
-                scale: .9;
-            }
-        }
+			@media screen and (min-width: 62rem) {
+				display: block;
+
+				&.more {
+					display: none;
+				}
+			}
+
+			&:is(:hover, :focus-visible) {
+				color: var(--color-primary);
+			}
+
+			&:active {
+				scale: 0.9;
+			}
+		}
 	}
 
 	.chat_box {
 		flex-grow: 1;
 		overflow-y: auto;
-        padding: 1rem;
+		padding: 1rem;
 
 		& ul {
 			list-style-type: none;
@@ -185,36 +278,36 @@
 			& .message {
 				display: flex;
 				align-items: flex-start;
-                max-width: 60%;
-                gap: 1rem;
-                margin-bottom: 2rem;
+				max-width: 60%;
+				gap: 1rem;
+				margin-bottom: 2rem;
 
-                & > img {
-                    border-radius: 50%;
-                    width: 2rem;
-                    aspect-ratio: 1;
-                    object-fit: cover;
-                    border: 2px solid var(--color-secondary);
-                }
+				& > img {
+					border-radius: 50%;
+					width: 2rem;
+					aspect-ratio: 1;
+					object-fit: cover;
+					border: 2px solid var(--color-secondary);
+				}
 
 				& > div {
 					background-color: var(--color-grey-900);
 					padding: 0.5rem;
-                    border: 1px solid var(--color-grey-500);
-                    border-radius: .5rem .5rem .5rem 0;
+					border: 1px solid var(--color-grey-500);
+					border-radius: 0.5rem 0.5rem 0.5rem 0;
 
 					& .content {
-                        display: flex;
-                        flex-wrap: wrap;
-                        align-items: flex-end;
-                        justify-content: flex-start;
+						display: flex;
+						flex-wrap: wrap;
+						align-items: flex-end;
+						justify-content: flex-start;
 						margin: 0;
 
-                        & sub {
-                            margin-left: auto;
-                            padding-left: 2rem;
-                            color: var(--color-grey-500)
-                        }
+						& sub {
+							margin-left: auto;
+							padding-left: 2rem;
+							color: var(--color-grey-500);
+						}
 					}
 
 					& .sender {
@@ -229,7 +322,7 @@
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: .5rem;
+		padding: 0.5rem;
 		box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.3);
 
 		& button {

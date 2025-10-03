@@ -1,80 +1,38 @@
 <script>
     // Components
     import Sidebar from "$lib/components/Sidebar.svelte";
+	import MessageBoardPlaceholder from "$lib/components/MessageBoardPlaceholder.svelte";
     // Non Components
     import { layout } from "$lib/stores/layout.svelte";
 </script>
 
 <Sidebar activeTab="contacts" />
 <div class="frame">
-	<div class="settings_panel">
+	<div class="view">
 		<h1>Contacts</h1>
-		<ul>
-			<li>1</li>
-			<li>1</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-			<li>Hello World</li>
-		</ul>
 	</div>
 	{#if layout.isDesktop}
-		<div>
-			<p>Linkup</p>
-			<p>Send and receive messages at your convenience</p>
+		<div class="placeholder">
+			<MessageBoardPlaceholder />
 		</div>
 	{/if}
 </div>
 
 <style>
     .frame {
+		height: 100%;
+		
 		@media screen and (min-width: 62rem) {
             display: flex;
-			margin-left: 5rem;
+			margin-left: 5.1rem;
+
+			& .view {
+				flex-basis: 25rem;
+			}
 		}
+	}
+
+	.placeholder {
+		flex-grow: 1;
 	}
 </style>

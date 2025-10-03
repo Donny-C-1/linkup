@@ -2,6 +2,9 @@
 	// Components
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import ConversationsPanel from '$lib/components/ConversationsPanel.svelte';
+	import MessageBoardPlaceholder from '$lib/components/MessageBoardPlaceholder.svelte';
+	// Icons
+	import logo from "$lib/assets/logo.svg?raw";
 	// Not Components
 	import { layout } from '$lib/stores/layout.svelte';
 </script>
@@ -12,9 +15,8 @@
 		<ConversationsPanel />
 	</div>
 	{#if layout.isDesktop}
-		<div>
-			<p>Linkup</p>
-			<p>Send and receive messages at your convenience</p>
+		<div class="placeholder">
+			<MessageBoardPlaceholder />
 		</div>
 	{/if}
 </div>
@@ -31,5 +33,9 @@
 				flex-basis: 25rem;
 			}
 		}
+	}
+
+	.placeholder {
+		flex-grow: 1;
 	}
 </style>

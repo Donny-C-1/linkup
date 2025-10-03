@@ -41,13 +41,7 @@
                 { name: "Karen", msg: "Thanks for the help.", unread: 4, time: "50m ago", img: "/images/avatar-12.jpg" },
                 { name: "Leo", msg: "See you at lunch.", unread: 0, time: "55m ago", img: "/images/avatar-13.jpg" },
                 { name: "Mona", msg: "Congrats!", unread: 1, time: "1h ago", img: "/images/avatar-14.jpg" },
-                { name: "Nate", msg: "No problem.", unread: 0, time: "1h ago", img: "/images/avatar-15.jpg" },
-                { name: "Olivia", msg: "Happy birthday!", unread: 3, time: "2h ago", img: "/images/avatar-16.jpg" },
-                { name: "Paul", msg: "See you soon.", unread: 0, time: "2h ago", img: "/images/avatar-17.jpg" },
-                { name: "Quinn", msg: "Let's catch up.", unread: 2, time: "3h ago", img: "/images/avatar-18.jpg" },
-                { name: "Rita", msg: "Miss you!", unread: 0, time: "3h ago", img: "/images/avatar-19.jpg" },
-                { name: "Sam", msg: "Good luck!", unread: 1, time: "4h ago", img: "/images/avatar-20.jpg" },
-                { name: "Tina", msg: "See you next week.", unread: 0, time: "5h ago", img: "/images/avatar-21.jpg" }
+                { name: "Nate", msg: "No problem.", unread: 0, time: "1h ago", img: "/images/avatar-1.jpg" },
             ] as convo, i}
                 <li>
                     <a class="conversation" href={`/chat/${246 + i}`}>
