@@ -1,6 +1,7 @@
 <script>
     // Components
     import Sidebar from "$lib/components/Sidebar.svelte";
+	import ContactsPanel from "$lib/components/ContactsPanel.svelte";
 	import MessageBoardPlaceholder from "$lib/components/MessageBoardPlaceholder.svelte";
     // Non Components
     import { layout } from "$lib/stores/layout.svelte";
@@ -9,7 +10,7 @@
 <Sidebar activeTab="contacts" />
 <div class="frame">
 	<div class="view">
-		<h1>Contacts</h1>
+		<ContactsPanel />
 	</div>
 	{#if layout.isDesktop}
 		<div class="placeholder">

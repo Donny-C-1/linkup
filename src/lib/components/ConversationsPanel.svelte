@@ -1,5 +1,8 @@
 <script>
     import searchIcon from "$lib/assets/search.svg?raw";
+    import conversationsStore from "$lib/stores/conversations.svelte";
+
+    let conversationList = $state(conversationsStore.list);
 </script>
 
 <div class="container">
@@ -10,39 +13,10 @@
             <input type="search" name="conversation" id="conversation_search" placeholder="Search here..." /></label>
     </header>
     <div class="conversation_list">
+        {#if conversationList.length > 0}
         <h2>Recent</h2>
         <ul>
-            <li>
-                <a class="conversation" href="/chat/245">
-                    <img src="/images/avatar-1.jpg" alt="conversation_profile_picture" width="40" height="auto" />
-                    <div class="content">
-                        <div>
-                            <p class="conversation_name">Peter</p>
-                            <p class="last_message">Hello bro</p>
-                        </div>
-                        <div>
-                            <span class="unread_message_count">4</span>
-                            <time datetime="" class="latest_time">Just now</time>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            {#each [
-                { name: "Alice", msg: "See you soon!", unread: 2, time: "2m ago", img: "/images/avatar-2.jpg" },
-                { name: "Bob", msg: "Got it!", unread: 0, time: "5m ago", img: "/images/avatar-3.jpg" },
-                { name: "Charlie", msg: "Thanks!", unread: 1, time: "10m ago", img: "/images/avatar-4.jpg" },
-                { name: "Diana", msg: "Let's meet tomorrow.", unread: 3, time: "15m ago", img: "/images/avatar-5.jpg" },
-                { name: "Eve", msg: "Check your email.", unread: 0, time: "20m ago", img: "/images/avatar-6.jpg" },
-                { name: "Frank", msg: "Awesome!", unread: 5, time: "25m ago", img: "/images/avatar-7.jpg" },
-                { name: "Grace", msg: "On my way.", unread: 1, time: "30m ago", img: "/images/avatar-8.jpg" },
-                { name: "Hank", msg: "See you!", unread: 0, time: "35m ago", img: "/images/avatar-9.jpg" },
-                { name: "Ivy", msg: "Call me.", unread: 2, time: "40m ago", img: "/images/avatar-10.jpg" },
-                { name: "Jack", msg: "Good night.", unread: 0, time: "45m ago", img: "/images/avatar-11.jpg" },
-                { name: "Karen", msg: "Thanks for the help.", unread: 4, time: "50m ago", img: "/images/avatar-12.jpg" },
-                { name: "Leo", msg: "See you at lunch.", unread: 0, time: "55m ago", img: "/images/avatar-13.jpg" },
-                { name: "Mona", msg: "Congrats!", unread: 1, time: "1h ago", img: "/images/avatar-14.jpg" },
-                { name: "Nate", msg: "No problem.", unread: 0, time: "1h ago", img: "/images/avatar-1.jpg" },
-            ] as convo, i}
+            {#each conversationsStore.list as convo, i}
                 <li>
                     <a class="conversation" href={`/chat/${246 + i}`}>
                         <img src={convo.img} alt="conversation_profile_picture" width="40" height="auto" />
@@ -62,6 +36,15 @@
                 </li>
             {/each}
         </ul>
+        {:else}
+            <div class="empty_state">
+                <div class="empty_state_content">
+                    <div class="illustration">👋</div>
+                    <h2>No conversations yet.</h2>
+                    <p>Start a conersation with friends to get started.</p>
+                </div>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -119,6 +102,8 @@
 
     .conversation_list {
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: var(--color-primary) var(--color-secondary);
@@ -190,4 +175,32 @@
             }
         }
     }
+
+    .empty_state {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        color: #667085;
+    }
+
+    .empty_state_content {
+        text-align: center;
+        max-width: 20rem;
+
+        & h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #344054;
+            margin: 0 0 0.5rem 0;
+        }
+    }
+
+    .illustration {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+    }
+
+
 </style>

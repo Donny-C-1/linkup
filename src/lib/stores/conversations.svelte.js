@@ -1,0 +1,40 @@
+import { PUBLIC_SERVER_URL } from "$env/static/public";
+
+let conversations = $state([]);
+let selectedConversation = $state(null);
+
+export default {
+	get list() {
+		return conversations;
+	},
+
+	get current() {
+		return selectedConversation;
+	},
+
+	setCurrent(conv) {
+		selectedConversation = conv;
+	},
+
+	async getConversations() {
+		try {
+			const response = await fetch(`${PUBLIC_SERVER_URL}/conversations`, { credentials: "include" });
+			const data = await response.json();
+
+			console.log("Data: %O: ", data);
+
+			if (!response.ok) throw new Error("Failed to fetch conversations");
+
+			conversations = data;
+
+			return data;
+		} catch (err) {
+			console.error(err);
+			return [];
+		}
+	},
+
+	addConversation(conv) {
+		conversations.push(conv);
+	}
+};

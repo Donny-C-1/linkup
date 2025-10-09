@@ -17,13 +17,13 @@
 			<a href="/chat"><span class="icon"><i>{@html chatIcon}</i></span></a>
 		</li>
 		<li class={activeTab === "contacts" && 'active'}>
-			<a href="/chat/contacts"><span class="icon"><i>{@html contactIcon}</i></span></a>
+			<a href="/chat/people"><span class="icon"><i>{@html contactIcon}</i></span></a>
 		</li>
 		<li class={activeTab === "bookmarks" && 'active'}>
 			<a href="/chat/bookmarks"><span class="icon"><i>{@html bookmarkIcon}</i></span></a>
 		</li>
 		<li class="profile {activeTab === 'profile' && 'active'}">
-			<a href="/chat/profile"><span class="icon"><i>{@html profileIcon}</i></span></a>
+			<a href="/chat/profile/me"><span class="icon"><i>{@html profileIcon}</i></span></a>
 		</li>
 	</ul>
 	<!-- <a href="/chat/settings">Settings</a> -->
