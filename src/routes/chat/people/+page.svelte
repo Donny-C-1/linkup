@@ -1,39 +1,10 @@
 <script>
-    // Components
-    import Sidebar from "$lib/components/Sidebar.svelte";
-	import ContactsPanel from "$lib/components/ContactsPanel.svelte";
-	import MessageBoardPlaceholder from "$lib/components/MessageBoardPlaceholder.svelte";
-    // Non Components
     import { layout } from "$lib/stores/layout.svelte";
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		$effect(() => {
+			layout.updateComponents({ sidebar: true, panel: "people", viewVisible: layout.isDesktop ? true : false })
+		})
+	})
 </script>
-
-<Sidebar activeTab="contacts" />
-<div class="frame">
-	<div class="view">
-		<ContactsPanel />
-	</div>
-	{#if layout.isDesktop}
-		<div class="placeholder">
-			<MessageBoardPlaceholder />
-		</div>
-	{/if}
-</div>
-
-<style>
-    .frame {
-		height: 100%;
-		
-		@media screen and (min-width: 62rem) {
-            display: flex;
-			margin-left: 5.1rem;
-
-			& .view {
-				flex-basis: 25rem;
-			}
-		}
-	}
-
-	.placeholder {
-		flex-grow: 1;
-	}
-</style>

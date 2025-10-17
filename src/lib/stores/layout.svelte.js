@@ -1,4 +1,4 @@
-import { BREAKPOINTS } from '$lib/config/constants.js';
+import { BREAKPOINTS } from "$lib/config/constants.js";
 
 let screenWidth = $state(0);
 
@@ -6,13 +6,15 @@ let isMobile = $derived(screenWidth <= BREAKPOINTS.mobile);
 let isTablet = $derived(screenWidth <= BREAKPOINTS.tablet);
 let isDesktop = $derived(screenWidth > BREAKPOINTS.tablet);
 
-let screen = $derived(
-	screenWidth <= BREAKPOINTS.mobile
-		? 'mobile'
-		: screenWidth <= BREAKPOINTS.tablet
-			? 'tablet'
-			: 'desktop'
-);
+let screen = $derived(screenWidth <= BREAKPOINTS.mobile ? "mobile" : screenWidth <= BREAKPOINTS.tablet ? "tablet" : "desktop");
+
+let components = $state({
+	sidebar: false,
+	messageBoard: false,
+	panelVisible: false,
+	viewVisible: false,
+	panel: "conversations"
+});
 
 export const layout = {
 	get screenWidth() {
@@ -32,5 +34,11 @@ export const layout = {
 	},
 	get isDesktop() {
 		return isDesktop;
+	},
+	get components() {
+		return components;
+	},
+	updateComponents(newComponents) {
+		Object.assign(components, newComponents);
 	}
 };

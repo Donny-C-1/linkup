@@ -1,35 +1,80 @@
 <script>
-	import { goto } from '$app/navigation';
-    let { children } = $props();
-    import authStore from '$lib/stores/auth.svelte';
-    import conversationsStore from '$lib/stores/conversations.svelte';
-	import { onMount } from 'svelte';
+	import { goto } from "$app/navigation";
+	import { onMount } from "svelte";
+	// Stores
+	import conversationsStore from "$lib/stores/conversations.svelte";
+	import { layout } from "$lib/stores/layout.svelte";
+	import authStore from "$lib/stores/auth.svelte";
+	// Components
+	import Sidebar from "$lib/components/Sidebar.svelte";
+	import ConversationsPanel from "$lib/components/ConversationsPanel.svelte";
+	import MessageBoardPlaceholder from "$lib/components/MessageBoardPlaceholder.svelte";
+	import BookmarkList from "$lib/components/BookmarkList.svelte";
+    import ContactsPanel from "$lib/components/ContactsPanel.svelte";
 
-    onMount(async function() {
-        try {
-            if (authStore.isAuth || await authStore.checkAuth()) {
-                // Load conversations
-                console.log("Authenticated successfully");
+	let { children } = $props();
 
-                await conversationsStore.getConversations();
-            } else {
-                // Redirect to login page
-                goto("/login");
-                return;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    })
+	onMount(async function () {
+		try {
+			if (authStore.isAuth || (await authStore.checkAuth())) {
+				// Load conversations
+				console.log("Authenticated successfully");
+
+				await conversationsStore.getConversations();
+			} else {
+				// Redirect to login page
+				goto("/login");
+				return;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	});
 </script>
 
 <div class="layout">
-    {@render children()}
+	{#if layout.components.sidebar}
+		<Sidebar activeTab="chats" />
+	{/if}
+	<div class="frame">
+		<div class="panel">
+			{#if layout.components.panel === "conversations"}
+				<ConversationsPanel />
+			{:else if layout.components.panel === "bookmarks"}
+				<BookmarkList />
+            {:else if layout.components.panel === "people"}
+                <ContactsPanel />
+			{/if}
+		</div>
+		{#if layout.components.viewVisible}
+			<div class="view">
+				<MessageBoardPlaceholder />
+			</div>
+		{/if}
+	</div>
+	{@render children()}
 </div>
 
 <style>
-    .layout {
-        height: 100vh;
-        overflow: hidden;
-    }
+	.layout {
+		height: 100vh;
+		overflow: hidden;
+	}
+
+	.frame {
+		height: 100%;
+
+		@media screen and (min-width: 62rem) {
+			display: flex;
+			margin-left: 5.1rem;
+
+			& .panel {
+				flex-basis: 25rem;
+			}
+
+			& .view {
+				flex-grow: 1;
+			}
+		}
+	}
 </style>
