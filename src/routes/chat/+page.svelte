@@ -4,7 +4,7 @@
 	
 	onMount(() => {
 		$effect(() => {
-			layout.updateComponents({ sidebar: true, panel: "conversations", viewVisible: layout.isDesktop ? true: false});
+			layout.updateComponents({ sidebar: true, panelVisible: true, panel: "conversations", viewVisible: layout.isDesktop ? true: false, view: "messagePlaceholder"});
 		})
 	})
 </script>

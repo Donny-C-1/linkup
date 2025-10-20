@@ -11,9 +11,10 @@ let screen = $derived(screenWidth <= BREAKPOINTS.mobile ? "mobile" : screenWidth
 let components = $state({
 	sidebar: false,
 	messageBoard: false,
-	panelVisible: false,
-	viewVisible: false,
-	panel: "conversations"
+	panelVisible: true,
+	viewVisible: true,
+	panel: "conversations",
+	view: "profile"
 });
 
 export const layout = {

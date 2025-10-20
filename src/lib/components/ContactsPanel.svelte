@@ -3,111 +3,114 @@
 	import ContactItem from "./ContactItem.svelte";
 	import menuIcon from "$lib/assets/more.svg?raw";
 	import { throttle, debounce } from "$lib/utils";
+	import conversationsStore from "$lib/stores/conversations.svelte";
 	import { PUBLIC_SERVER_URL } from "$env/static/public";
+	import { onMount } from "svelte";
 
 	// Define contact list
-	let contacts = $state([
-		{
-			id: 1,
-			username: "Alice Johnson",
-			imageUrl: "https://randomuser.me/api/portraits/women/1.jpg"
-		},
-		{
-			id: 2,
-			username: "Bob Smith",
-			imageUrl: "https://randomuser.me/api/portraits/men/1.jpg"
-		},
-		{
-			id: 3,
-			username: "Catherine Parker",
-			imageUrl: "https://randomuser.me/api/portraits/women/2.jpg"
-		},
-		{
-			id: 4,
-			username: "David Wilson",
-			imageUrl: "https://randomuser.me/api/portraits/men/2.jpg"
-		},
-		{
-			id: 5,
-			username: "Emma Davis",
-			imageUrl: "https://randomuser.me/api/portraits/women/3.jpg"
-		},
-		{
-			id: 6,
-			username: "Frank Miller",
-			imageUrl: "https://randomuser.me/api/portraits/men/3.jpg"
-		},
-		{
-			id: 7,
-			username: "Grace Wilson",
-			imageUrl: "https://randomuser.me/api/portraits/women/4.jpg"
-		},
-		{
-			id: 8,
-			username: "Henry Taylor",
-			imageUrl: "https://randomuser.me/api/portraits/men/4.jpg"
-		},
-		{
-			id: 9,
-			username: "Isabelle Anderson",
-			imageUrl: "https://randomuser.me/api/portraits/women/5.jpg"
-		},
-		{
-			id: 10,
-			username: "James Brown",
-			imageUrl: "https://randomuser.me/api/portraits/men/5.jpg"
-		},
-		{
-			id: 11,
-			username: "Kelly Martinez",
-			imageUrl: "https://randomuser.me/api/portraits/women/6.jpg"
-		},
-		{
-			id: 12,
-			username: "Liam Johnson",
-			imageUrl: "https://randomuser.me/api/portraits/men/6.jpg"
-		},
-		{
-			id: 13,
-			username: "Mia Thompson",
-			imageUrl: "https://randomuser.me/api/portraits/women/7.jpg"
-		},
-		{
-			id: 14,
-			username: "Noah Garcia",
-			imageUrl: "https://randomuser.me/api/portraits/men/7.jpg"
-		},
-		{
-			id: 15,
-			username: "Olivia Rodriguez",
-			imageUrl: "https://randomuser.me/api/portraits/women/8.jpg"
-		},
-		{
-			id: 16,
-			username: "Peter Chen",
-			imageUrl: "https://randomuser.me/api/portraits/men/8.jpg"
-		},
-		{
-			id: 17,
-			username: "Quinn Williams",
-			imageUrl: "https://randomuser.me/api/portraits/women/9.jpg"
-		},
-		{
-			id: 18,
-			username: "Ryan Lopez",
-			imageUrl: "https://randomuser.me/api/portraits/men/9.jpg"
-		},
-		{
-			id: 19,
-			username: "Sophia Lee",
-			imageUrl: "https://randomuser.me/api/portraits/women/10.jpg"
-		},
-		{
-			id: 20,
-			username: "Tyler Moore",
-			imageUrl: "https://randomuser.me/api/portraits/men/10.jpg"
-		}
-	]);
+	// let contacts = $state([
+	// 	{
+	// 		id: 1,
+	// 		username: "Alice Johnson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/1.jpg"
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		username: "Bob Smith",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/1.jpg"
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		username: "Catherine Parker",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/2.jpg"
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		username: "David Wilson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/2.jpg"
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		username: "Emma Davis",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/3.jpg"
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		username: "Frank Miller",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/3.jpg"
+	// 	},
+	// 	{
+	// 		id: 7,
+	// 		username: "Grace Wilson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/4.jpg"
+	// 	},
+	// 	{
+	// 		id: 8,
+	// 		username: "Henry Taylor",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/4.jpg"
+	// 	},
+	// 	{
+	// 		id: 9,
+	// 		username: "Isabelle Anderson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/5.jpg"
+	// 	},
+	// 	{
+	// 		id: 10,
+	// 		username: "James Brown",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/5.jpg"
+	// 	},
+	// 	{
+	// 		id: 11,
+	// 		username: "Kelly Martinez",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/6.jpg"
+	// 	},
+	// 	{
+	// 		id: 12,
+	// 		username: "Liam Johnson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/6.jpg"
+	// 	},
+	// 	{
+	// 		id: 13,
+	// 		username: "Mia Thompson",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/7.jpg"
+	// 	},
+	// 	{
+	// 		id: 14,
+	// 		username: "Noah Garcia",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/7.jpg"
+	// 	},
+	// 	{
+	// 		id: 15,
+	// 		username: "Olivia Rodriguez",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/8.jpg"
+	// 	},
+	// 	{
+	// 		id: 16,
+	// 		username: "Peter Chen",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/8.jpg"
+	// 	},
+	// 	{
+	// 		id: 17,
+	// 		username: "Quinn Williams",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/9.jpg"
+	// 	},
+	// 	{
+	// 		id: 18,
+	// 		username: "Ryan Lopez",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/9.jpg"
+	// 	},
+	// 	{
+	// 		id: 19,
+	// 		username: "Sophia Lee",
+	// 		imageUrl: "https://randomuser.me/api/portraits/women/10.jpg"
+	// 	},
+	// 	{
+	// 		id: 20,
+	// 		username: "Tyler Moore",
+	// 		imageUrl: "https://randomuser.me/api/portraits/men/10.jpg"
+	// 	}
+	// ]);
+	let contacts = $derived(conversationsStore.list.filter(conv => conv.isGroup == false));
 
 	let query = $state("");
 
@@ -172,11 +175,12 @@
 	<div class="contact_list">
 		<!-- <h2>Invites</h2> -->
 		{#if query}
-			{#each filteredContacts as { id, username, imageUrl }}
+			<br>
+			{#each filteredContacts as { _id: id, username, avatar }}
 				<div class="contact_item">
 					<div class="contact_info">
-						<img src={imageUrl} alt={username} class="contact_avatar" width="40" height="auto" />
-						<a href="/chat/profile/{id}" class="username">{username}</a>
+						<img src={avatar} alt={username} class="contact_avatar" width="40" height="auto" />
+						<a href="/chat/people/{id}" class="username">{username}</a>
 					</div>
 
 					<div class="menu_container">
@@ -269,6 +273,8 @@
 
 	.contact_list {
 		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
 		overflow-y: auto;
 		scrollbar-width: thin;
 		scrollbar-color: var(--color-primary) var(--color-secondary);
@@ -303,6 +309,10 @@
 		border-radius: 0.5rem;
 		transition: 0.2s ease;
 		margin-bottom: 0.25rem;
+
+		&:hover {
+			background-color: var(--color-tertiary);
+		}
 
 		& .contact_info {
 			display: flex;
@@ -343,6 +353,32 @@
 				background-color: rgba(0, 0, 0, 0.1);
 				color: #333;
 			}
+		}
+	}
+
+	.empty_state {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1rem;
+		color: #667085;
+
+		& .empty_state_content {
+			text-align: center;
+			max-width: 20rem;
+
+			& h2 {
+				font-size: 1.25rem;
+				font-weight: 600;
+				color: #344054;
+				margin: 0 0 0.5rem 0;
+			}
+		}
+
+		& .illustration {
+			font-size: 4rem;
+			margin-bottom: 1.5rem;
 		}
 	}
 </style>

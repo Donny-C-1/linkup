@@ -10,7 +10,8 @@
 	import ConversationsPanel from "$lib/components/ConversationsPanel.svelte";
 	import MessageBoardPlaceholder from "$lib/components/MessageBoardPlaceholder.svelte";
 	import BookmarkList from "$lib/components/BookmarkList.svelte";
-    import ContactsPanel from "$lib/components/ContactsPanel.svelte";
+	import ContactsPanel from "$lib/components/ContactsPanel.svelte";
+	import ProfilePanel from "$lib/components/ProfilePanel.svelte";
 
 	let { children } = $props();
 
@@ -42,13 +43,17 @@
 				<ConversationsPanel />
 			{:else if layout.components.panel === "bookmarks"}
 				<BookmarkList />
-            {:else if layout.components.panel === "people"}
-                <ContactsPanel />
+			{:else if layout.components.panel === "people"}
+				<ContactsPanel />
 			{/if}
 		</div>
 		{#if layout.components.viewVisible}
 			<div class="view">
-				<MessageBoardPlaceholder />
+				{#if layout.components.view === "profile"}
+					<ProfilePanel />
+				{:else if layout.components.view === "messagePlaceholder"}
+					<MessageBoardPlaceholder />
+				{/if}
 			</div>
 		{/if}
 	</div>

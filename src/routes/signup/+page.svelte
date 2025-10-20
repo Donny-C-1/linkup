@@ -18,7 +18,9 @@
                 method: 'post',
                 body: JSON.stringify({
                     username,
-                    password
+                    password,
+
+                    avatar: "/images/avatar.png"
                 }),
                 headers: {
                     "Content-Type": "application/json"
