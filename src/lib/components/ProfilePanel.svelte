@@ -1,12 +1,22 @@
 <script>
 	import authStore from "$lib/stores/auth.svelte";
+    import usersStore from "$lib/stores/users.svelte";
+	import { onMount } from "svelte";
 
-	let { user } = authStore;
+    let user = $state(authStore.user);
 
 	let editMode = $state(false);
     let editedUser = $state({});
     let isSaving = $state(false);
     let saveMessage = $state("");
+
+    $effect(async () => {
+        editMode = authStore.user.id === usersStore.userProfileID;
+        if (usersStore.userProfileID) {
+            user = await usersStore.getUser(usersStore.userProfileID);
+        }
+    })
+    
 
     function toggleEditMode() {
         editMode = !editMode;

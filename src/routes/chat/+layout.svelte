@@ -14,12 +14,14 @@
 	import ProfilePanel from "$lib/components/ProfilePanel.svelte";
 
 	let { children } = $props();
+	let loading = $state(true);
 
 	onMount(async function () {
 		try {
 			if (authStore.isAuth || (await authStore.checkAuth())) {
 				// Load conversations
 				console.log("Authenticated successfully");
+				loading = false;
 
 				await conversationsStore.getConversations();
 			} else {
@@ -33,32 +35,34 @@
 	});
 </script>
 
-<div class="layout">
-	{#if layout.components.sidebar}
-		<Sidebar activeTab="chats" />
-	{/if}
-	<div class="frame">
-		<div class="panel">
-			{#if layout.components.panel === "conversations"}
-				<ConversationsPanel />
-			{:else if layout.components.panel === "bookmarks"}
-				<BookmarkList />
-			{:else if layout.components.panel === "people"}
-				<ContactsPanel />
-			{/if}
-		</div>
-		{#if layout.components.viewVisible}
-			<div class="view">
-				{#if layout.components.view === "profile"}
-					<ProfilePanel />
-				{:else if layout.components.view === "messagePlaceholder"}
-					<MessageBoardPlaceholder />
+{#if !loading}
+	{@render children()}
+	<div class="layout">
+		{#if layout.components.sidebar}
+			<Sidebar activeTab="chats" />
+		{/if}
+		<div class="frame">
+			<div class="panel">
+				{#if layout.components.panel === "conversations"}
+					<ConversationsPanel />
+				{:else if layout.components.panel === "bookmarks"}
+					<BookmarkList />
+				{:else if layout.components.panel === "people"}
+					<ContactsPanel />
 				{/if}
 			</div>
-		{/if}
+			{#if layout.components.viewVisible}
+				<div class="view">
+					{#if layout.components.view === "profile"}
+						<ProfilePanel />
+					{:else if layout.components.view === "messagePlaceholder"}
+						<MessageBoardPlaceholder />
+					{/if}
+				</div>
+			{/if}
+		</div>
 	</div>
-	{@render children()}
-</div>
+{/if}
 
 <style>
 	.layout {

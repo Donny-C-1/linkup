@@ -21,13 +21,11 @@ export default {
 			const response = await fetch(`${PUBLIC_SERVER_URL}/conversations`, { credentials: "include" });
 			const data = await response.json();
 
-			console.log("Data: %O: ", data);
-
 			if (!response.ok) throw new Error("Failed to fetch conversations");
 
 			conversations = data;
 
-			return data;
+			return conversations;
 		} catch (err) {
 			console.error(err);
 			return [];
