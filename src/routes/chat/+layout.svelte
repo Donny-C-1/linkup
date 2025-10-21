@@ -17,6 +17,7 @@
 	let loading = $state(true);
 
 	onMount(async function () {
+		$inspect(conversationsStore.list);
 		try {
 			if (authStore.isAuth || (await authStore.checkAuth())) {
 				// Load conversations
@@ -79,6 +80,8 @@
 
 			& .panel {
 				flex-basis: 25rem;
+				box-shadow: 2px 2px 1px rgba(0, 0, 0, .1);
+				z-index: 1;
 			}
 
 			& .view {

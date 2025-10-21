@@ -2,7 +2,7 @@
     import searchIcon from "$lib/assets/search.svg?raw";
     import conversationsStore from "$lib/stores/conversations.svelte";
 
-    let conversationList = $state(conversationsStore.list);
+    let conversationList = $derived(conversationsStore.list);
 </script>
 
 <div class="container">
@@ -19,7 +19,7 @@
             {#each conversationsStore.list as convo, i}
                 <li>
                     <a class="conversation" href={`/chat/${246 + i}`}>
-                        <img src={convo.img} alt="conversation_profile_picture" width="40" height="auto" />
+                        <img src={convo.avatar} alt="conversation_profile_picture" width="40" height="auto" />
                         <div class="content">
                             <div>
                                 <p class="conversation_name">{convo.name}</p>

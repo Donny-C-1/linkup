@@ -7,109 +7,6 @@
 	import { PUBLIC_SERVER_URL } from "$env/static/public";
 	import { onMount } from "svelte";
 
-	// Define contact list
-	// let contacts = $state([
-	// 	{
-	// 		id: 1,
-	// 		username: "Alice Johnson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/1.jpg"
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		username: "Bob Smith",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/1.jpg"
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		username: "Catherine Parker",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/2.jpg"
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		username: "David Wilson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/2.jpg"
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		username: "Emma Davis",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/3.jpg"
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		username: "Frank Miller",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/3.jpg"
-	// 	},
-	// 	{
-	// 		id: 7,
-	// 		username: "Grace Wilson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/4.jpg"
-	// 	},
-	// 	{
-	// 		id: 8,
-	// 		username: "Henry Taylor",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/4.jpg"
-	// 	},
-	// 	{
-	// 		id: 9,
-	// 		username: "Isabelle Anderson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/5.jpg"
-	// 	},
-	// 	{
-	// 		id: 10,
-	// 		username: "James Brown",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/5.jpg"
-	// 	},
-	// 	{
-	// 		id: 11,
-	// 		username: "Kelly Martinez",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/6.jpg"
-	// 	},
-	// 	{
-	// 		id: 12,
-	// 		username: "Liam Johnson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/6.jpg"
-	// 	},
-	// 	{
-	// 		id: 13,
-	// 		username: "Mia Thompson",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/7.jpg"
-	// 	},
-	// 	{
-	// 		id: 14,
-	// 		username: "Noah Garcia",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/7.jpg"
-	// 	},
-	// 	{
-	// 		id: 15,
-	// 		username: "Olivia Rodriguez",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/8.jpg"
-	// 	},
-	// 	{
-	// 		id: 16,
-	// 		username: "Peter Chen",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/8.jpg"
-	// 	},
-	// 	{
-	// 		id: 17,
-	// 		username: "Quinn Williams",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/9.jpg"
-	// 	},
-	// 	{
-	// 		id: 18,
-	// 		username: "Ryan Lopez",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/9.jpg"
-	// 	},
-	// 	{
-	// 		id: 19,
-	// 		username: "Sophia Lee",
-	// 		imageUrl: "https://randomuser.me/api/portraits/women/10.jpg"
-	// 	},
-	// 	{
-	// 		id: 20,
-	// 		username: "Tyler Moore",
-	// 		imageUrl: "https://randomuser.me/api/portraits/men/10.jpg"
-	// 	}
-	// ]);
 	let contacts = $derived(conversationsStore.list.filter(conv => conv.isGroup == false));
 
 	let query = $state("");
@@ -146,9 +43,7 @@
 		try {
 			const response = await fetch(`${PUBLIC_SERVER_URL}/users/search?q=${encodeURIComponent(query)}`, { credentials: "include" });
 			const data = await response.json();
-			console.log(response);
 
-			console.log(data);
 			if (!response.ok) throw new Error("Failed to fetch users");
 
 			filteredContacts = data.users;
@@ -156,11 +51,6 @@
 		} catch (err) {
 			console.error("Search error: ", err);
 		}
-		// return new Promise((resolve) => {
-		// 	filteredContacts = contacts.filter((contact) => contact.username.toLowerCase().includes(query.toLowerCase()));
-		// 	setTimeout(() => console.log("Contacts: %O:", filteredContacts), 1000);
-		// 	resolve(query);
-		// });
 	}, 2000);
 </script>
 

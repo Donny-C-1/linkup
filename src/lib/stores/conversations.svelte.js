@@ -34,5 +34,29 @@ export default {
 
 	addConversation(conv) {
 		conversations.push(conv);
+	},
+
+	async create(friendID, isGroup = false) {
+		try {
+			const response = await fetch(`${PUBLIC_SERVER_URL}/conversations`, {
+				method: "post",
+				body: JSON.stringify({
+					isGroup,
+					members: [friendID]
+				}),
+				headers: {
+					"Content-Type": "application/json"
+				},
+				credentials: "include"
+			});
+			const data = await response.json();
+
+			if (!response.ok) throw new Error(`${data.title}: ${data.message}`);
+
+			return data;
+		} catch (err) {
+			console.log(err);
+			return null;
+		}
 	}
 };

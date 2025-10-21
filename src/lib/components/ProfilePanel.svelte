@@ -1,21 +1,27 @@
 <script>
 	import authStore from "$lib/stores/auth.svelte";
+	import conversationsStore from "$lib/stores/conversations.svelte";
     import usersStore from "$lib/stores/users.svelte";
 	import { onMount } from "svelte";
 
     let user = $state(authStore.user);
 
+    let ownProfile = $state(true);
 	let editMode = $state(false);
     let editedUser = $state({});
     let isSaving = $state(false);
     let saveMessage = $state("");
 
     $effect(async () => {
-        editMode = authStore.user.id === usersStore.userProfileID;
+        ownProfile = authStore.user.id === usersStore.userProfileID;
         if (usersStore.userProfileID) {
             user = await usersStore.getUser(usersStore.userProfileID);
         }
     })
+
+    function addFriend() {
+        conversationsStore.create(usersStore.userProfileID, false);
+    }
     
 
     function toggleEditMode() {
@@ -82,10 +88,16 @@
                     <p class="bio">{user.bio || "No bio provided yet."}</p>
                 </div>
 
+                {#if ownProfile}
                 <div class="actions">
                     <button class="edit_button" onclick={toggleEditMode}>Edit Profile</button>
                     <button class="logout_button">Logout</button>
                 </div>
+                {:else}
+                <div class="actions">
+                    <button class="edit_button" onclick={addFriend}>Add User</button>
+                </div>
+                {/if}
             </div>
         {:else}
             <div class="edit_form">
